@@ -1,0 +1,5 @@
+This project implements batch RGB image processing with a custom CUDA 3x3 box-blur kernel. The program reads a directory of PPM images, transfers each image to GPU memory, launches a two-dimensional CUDA grid, copies the processed pixels back to the host, and writes the output image. The default workload generates and processes 100 RGB images at 256x256 pixels in one execution.
+
+Each CUDA thread computes one output pixel. For each color channel, it averages the values in a 3x3 neighborhood. Coordinates are clamped at image boundaries. CUDA events measure kernel execution time, and per-image timings are recorded in a CSV file.
+
+The dataset is generated deterministically so that the experiment can be reproduced. The project demonstrates GPU memory allocation, host-to-device and device-to-host transfers, kernel launch configuration, parallel pixel processing, and GPU resource cleanup. An important lesson is that kernel-only timing does not include image loading or memory-transfer overhead, so it should not be confused with end-to-end processing time.
